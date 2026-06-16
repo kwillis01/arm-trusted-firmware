@@ -6,6 +6,7 @@
  */
 
 #include <common/debug.h>
+#include <lib/mmio.h>
 #include <lpm_stub.h>
 #include <plat_private.h>
 #include <plat_scmi_def.h>
@@ -65,6 +66,9 @@ int ti_soc_init(void)
 	open_rom_fwl();
 	/* Apply firewall configurations over BL31 and BL32 memory regions */
 	update_fwl_configs();
+
+	/* Enable auto clock gating */
+	mmio_write_32(WKUP_CTRL_MMR0_BASE + WKUP_CTRL_MMR0_CLKGATE_CTRL0_OFFSET, 0x0U);
 
 	ret = ti_sci_proc_request(PLAT_PROC_START_ID);
 	if (ret != 0) {

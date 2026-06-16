@@ -22,6 +22,7 @@
 #define EMIF_CTLCFG_SIZE UL(0x8000)
 
 #define WKUP_CTRL_MMR0_DEVICE_RESET_OFFSET	UL(0x54000)
+#define WKUP_CTRL_MMR0_CLKGATE_CTRL0_OFFSET	UL(0x54050)
 
 /* Device Control Region - covers PSC, PLL, and other control registers */
 #define K3LOW_DEVCTRL_BASE    UL(0x200000)    /* Start of device control registers */
