@@ -78,6 +78,8 @@
 #define RTC_ONLY_PLUS_DDR_MAGIC_WORD		(0x6D555555U)
 #define DEEP_SLEEP_MAGIC_WORD			(0xD5555555U)
 
+#define WAKEUP_UNKNOWN	(0xFFFFFFU)
+
 /* counts of 1us delay for 100ms */
 #define TIMEOUT_100MS					100000U
 
@@ -107,18 +109,21 @@ __wkupsramdata uint8_t usb1_state;
 __wkupsramdata uint8_t lpm_mode;
 
 static uint32_t k3low_lpm_mode;
+static uint32_t k3low_wakeup_src;
 extern uint32_t k3low_lpm_switch_stack(uintptr_t jump, uintptr_t stack, uint32_t arg);
 static void k3_lpm_jump_to_stub(uint32_t mode);
 
 void k3low_config_wake_sources(bool enable)
 {
 	uint32_t wake_up_src;
+	k3low_wakeup_src = WAKEUP_UNKNOWN;
 
 	if (enable) {
 		mmio_write_32(WKUP_CTRL_MMR_SEC_5_BASE + WKUP0_EN,
 			      WKUP0_EN_ALL_SOURCES);
 	} else {
 		wake_up_src = mmio_read_32(WKUP_CTRL_MMR_SEC_5_BASE + WKUP0_SRC);
+		k3low_wakeup_src = wake_up_src;
 		mmio_write_32(WKUP_CTRL_MMR_SEC_5_BASE + WKUP0_EN, 0x00);
 		mmio_write_32(WKUP_CTRL_MMR_SEC_5_BASE + WKUP0_SRC, wake_up_src);
 	}
@@ -670,6 +675,11 @@ void k3low_suspend_to_ram(uint32_t mode)
 uint32_t k3low_get_lpm_mode(void)
 {
 	return k3low_lpm_mode;
+}
+
+uint32_t k3low_get_wakeup_src(void)
+{
+	return k3low_wakeup_src;
 }
 
 #ifndef __ASSEMBLER__

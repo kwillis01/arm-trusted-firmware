@@ -76,4 +76,11 @@ __wkupsramfunc void k3low_lpm_abort(void);
  */
 uint32_t k3low_get_lpm_mode(void);
 
+/**
+ * @brief Return the wakeup source register value captured on resume
+ *
+ * @return WKUP CTRL MMR WKUP0_SRC register value from the last wakeup
+ */
+uint32_t k3low_get_wakeup_src(void);
+
 #endif /* LPM_STB_H */
