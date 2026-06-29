@@ -70,6 +70,12 @@ int32_t k3low_lpm_set_io_isolation(bool enable);
 __wkupsramfunc void k3low_lpm_abort(void);
 
 /**
+ * @brief Find the pin responsible for latest system wakeup by iterating through PADCONF registers
+ * and checking if WKUP_EVT flag is set
+ */
+void k3low_find_padconf_wakeup_pin(void);
+
+/**
  * @brief Return the last entered low power mode
  *
  * @return last entered low power mode
@@ -82,5 +88,12 @@ uint32_t k3low_get_lpm_mode(void);
  * @return WKUP CTRL MMR WKUP0_SRC register value from the last wakeup
  */
 uint32_t k3low_get_wakeup_src(void);
+
+/**
+ * @brief Return the padconf pin number responsible for the latest system wakeup
+ *
+ * @return wakeup pin number
+ */
+uint32_t k3low_get_wakeup_pin(void);
 
 #endif /* LPM_STB_H */

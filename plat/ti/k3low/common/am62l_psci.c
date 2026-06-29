@@ -378,6 +378,7 @@ static void am62l_pwr_domain_suspend_finish(const psci_power_state_t *target_sta
 		return;
 	}
 
+	k3low_find_padconf_wakeup_pin();
 	/* Remove the I/O isolation */
 	k3low_lpm_set_io_isolation(false);
 	/* Initialize the console to provide early debug support */
