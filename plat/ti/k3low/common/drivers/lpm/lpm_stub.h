@@ -69,4 +69,11 @@ int32_t k3low_lpm_set_io_isolation(bool enable);
  */
 __wkupsramfunc void k3low_lpm_abort(void);
 
+/**
+ * @brief Return the last entered low power mode
+ *
+ * @return last entered low power mode
+ */
+uint32_t k3low_get_lpm_mode(void);
+
 #endif /* LPM_STB_H */
