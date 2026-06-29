@@ -13,6 +13,7 @@
 
 #include <k3_sip_svc.h>
 #include <lib/mmio.h>
+#include <lpm_stub.h>
 #include <ti_sci.h>
 #include <tools_share/uuid.h>
 
@@ -91,6 +92,10 @@ uintptr_t sip_smc_handler(uint32_t smc_fid,
 		}
 
 		SMC_RET1(handle, SMC_UNK);
+
+	case K3_SIP_GET_WKUP_REASON:
+		SMC_RET4(handle, 0, k3low_get_lpm_mode(), k3low_get_wakeup_src(),
+			 k3low_get_wakeup_pin());
 
 	default:
 		ERROR("%s: unhandled SMC (0x%x)\n", __func__, smc_fid);
