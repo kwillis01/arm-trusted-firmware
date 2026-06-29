@@ -106,6 +106,7 @@ __wkupsramdata uint8_t usb0_state;
 __wkupsramdata uint8_t usb1_state;
 __wkupsramdata uint8_t lpm_mode;
 
+static uint32_t k3low_lpm_mode;
 extern uint32_t k3low_lpm_switch_stack(uintptr_t jump, uintptr_t stack, uint32_t arg);
 static void k3_lpm_jump_to_stub(uint32_t mode);
 
@@ -662,7 +663,13 @@ __wkupsramfunc void k3low_lpm_resume_c(void)
 
 void k3low_suspend_to_ram(uint32_t mode)
 {
+	k3low_lpm_mode = mode;
 	k3_lpm_jump_to_stub(mode);
+}
+
+uint32_t k3low_get_lpm_mode(void)
+{
+	return k3low_lpm_mode;
 }
 
 #ifndef __ASSEMBLER__
